@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-//using System.Windows.Shell;
+using System.Windows.Shell;
 
 namespace SimpleSpritePacker
 {
@@ -28,7 +28,7 @@ namespace SimpleSpritePacker
 
         ProgressForm _progressForm;
 
-        //TaskbarItemInfo _taskBarItemInfo;
+        TaskbarItemInfo _taskBarItemInfo;
 
         public MainForm()
         {
@@ -36,7 +36,7 @@ namespace SimpleSpritePacker
             _progressForm = new ProgressForm();
             _progressForm.Canceled += ProgressForm_Canceled;
             lvInputFiles.VirtualListSize = 0;
-            //_taskBarItemInfo = new TaskbarItemInfo();
+            _taskBarItemInfo = new TaskbarItemInfo();
         }
 
         private void lvInputFiles_DragEnter(object sender, DragEventArgs e)
@@ -195,7 +195,6 @@ namespace SimpleSpritePacker
             {
                 _progressForm.Init(14);//_inputFiles.Count);
                 _progressForm.Show(this);
-                this.Enabled = false;
                 backgroundWorkerSpritePacker.RunWorkerAsync();
             }
         }
@@ -206,7 +205,7 @@ namespace SimpleSpritePacker
             // Instead, use the reference provided by the sender parameter.
             BackgroundWorker bw = sender as BackgroundWorker;
 
-            //UpdateTaskBarState(TaskbarItemProgressState.Normal);
+            UpdateTaskBarState(TaskbarItemProgressState.Normal);
             //this.taskBarItemInfo1.Overlay = (DrawingImage)this.FindResource("PlayImage");
 
             //Assign work
@@ -220,56 +219,55 @@ namespace SimpleSpritePacker
             }
         }
 
-        //void UpdateTaskBarState(TaskbarItemProgressState state)
-        //{
-        //    if (this.InvokeRequired)
-        //    {
-        //        this.Invoke(new MethodInvoker(() => { UpdateTaskBarState(state); }));
-        //    }
-        //    else
-        //    {
-        //        _taskBarItemInfo.ProgressState = state;
-        //    }
-        //}
-        //void UpdateTaskBarProgress(int value, int max)
-        //{
-        //    if (this.InvokeRequired)
-        //    {
-        //        this.Invoke(new MethodInvoker(() => { UpdateTaskBarProgress(value, max); }));
-        //    }
-        //    else
-        //    {
-        //        _taskBarItemInfo.ProgressValue = (double)value /max;
-        //    }
-        //}
+        void UpdateTaskBarState(TaskbarItemProgressState state)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(() => { UpdateTaskBarState(state); }));
+            }
+            else
+            {
+                _taskBarItemInfo.ProgressState = state;
+            }
+        }
+        void UpdateTaskBarProgress(int value, int max)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(() => { UpdateTaskBarProgress(value, max); }));
+            }
+            else
+            {
+                _taskBarItemInfo.ProgressValue = (double)value /max;
+            }
+        }
 
         private void backgroundWorkerSpritePacker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            //UpdateTaskBarProgress(e.ProgressPercentage, 14);
+            UpdateTaskBarProgress(e.ProgressPercentage, 14);
             _progressForm.UpdateProgress(e.ProgressPercentage, e.UserState);
         }
 
         private void backgroundWorkerSpritePacker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            this.Enabled = true;
             _progressForm.Hide();
             if (e.Cancelled)
             {
                 // The user canceled the operation.
                 //MessageBox.Show("Operation was canceled");
 
-                //UpdateTaskBarState(TaskbarItemProgressState.Paused);
+                UpdateTaskBarState(TaskbarItemProgressState.Paused);
             }
             else if (e.Error != null)
             {
                 // There was an error during the operation.
-                //UpdateTaskBarState(TaskbarItemProgressState.Error);
+                UpdateTaskBarState(TaskbarItemProgressState.Error);
                 string msg = String.Format("An error occurred: {0}", e.Error.Message);
                 MessageBox.Show(msg);
             }
             else
             {
-                //UpdateTaskBarState(TaskbarItemProgressState.None);
+                UpdateTaskBarState(TaskbarItemProgressState.None);
                 // The operation completed normally.
                 //string msg = String.Format("Result = {0}", e.Result);
                 //MessageBox.Show(msg);
