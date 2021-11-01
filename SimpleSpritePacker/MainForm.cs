@@ -16,7 +16,6 @@ namespace SimpleSpritePacker
     public partial class MainForm : Form
     {
         List<SpriteFileData> _inputFiles = new List<SpriteFileData>();
-
         /// <summary>
         /// array to cache items for the virtual list
         /// </summary>
@@ -25,10 +24,7 @@ namespace SimpleSpritePacker
         /// stores the index of the first item in the cache
         /// </summary>
         private int _firstCacheItemIndex;
-
         ProgressForm _progressForm;
-
-        //TaskbarItemInfo _taskBarItemInfo;
 
         public MainForm()
         {
@@ -36,7 +32,6 @@ namespace SimpleSpritePacker
             _progressForm = new ProgressForm();
             _progressForm.Canceled += ProgressForm_Canceled;
             lvInputFiles.VirtualListSize = 0;
-            //_taskBarItemInfo = new TaskbarItemInfo();
         }
 
         private void lvInputFiles_DragEnter(object sender, DragEventArgs e)
@@ -206,9 +201,6 @@ namespace SimpleSpritePacker
             // Instead, use the reference provided by the sender parameter.
             BackgroundWorker bw = sender as BackgroundWorker;
 
-            //UpdateTaskBarState(TaskbarItemProgressState.Normal);
-            //this.taskBarItemInfo1.Overlay = (DrawingImage)this.FindResource("PlayImage");
-
             //Assign work
             e.Result = GenerateSpriteAtlas(bw);
 
@@ -219,29 +211,6 @@ namespace SimpleSpritePacker
                 e.Cancel = true;
             }
         }
-
-        //void UpdateTaskBarState(TaskbarItemProgressState state)
-        //{
-        //    if (this.InvokeRequired)
-        //    {
-        //        this.Invoke(new MethodInvoker(() => { UpdateTaskBarState(state); }));
-        //    }
-        //    else
-        //    {
-        //        _taskBarItemInfo.ProgressState = state;
-        //    }
-        //}
-        //void UpdateTaskBarProgress(int value, int max)
-        //{
-        //    if (this.InvokeRequired)
-        //    {
-        //        this.Invoke(new MethodInvoker(() => { UpdateTaskBarProgress(value, max); }));
-        //    }
-        //    else
-        //    {
-        //        _taskBarItemInfo.ProgressValue = (double)value /max;
-        //    }
-        //}
 
         private void backgroundWorkerSpritePacker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
@@ -256,25 +225,17 @@ namespace SimpleSpritePacker
             if (e.Cancelled)
             {
                 // The user canceled the operation.
-                //MessageBox.Show("Operation was canceled");
-
-                //UpdateTaskBarState(TaskbarItemProgressState.Paused);
             }
             else if (e.Error != null)
             {
                 // There was an error during the operation.
-                //UpdateTaskBarState(TaskbarItemProgressState.Error);
                 string msg = String.Format("An error occurred: {0}", e.Error.Message);
                 MessageBox.Show(msg);
             }
             else
             {
-                //UpdateTaskBarState(TaskbarItemProgressState.None);
                 // The operation completed normally.
-                //string msg = String.Format("Result = {0}", e.Result);
-                //MessageBox.Show(msg);
             }
-            //this._taskBarItemInfo.Overlay = (DrawingImage)this.FindResource("StopImage");
         }
 
         bool GenerateSpriteAtlas(BackgroundWorker bw)
