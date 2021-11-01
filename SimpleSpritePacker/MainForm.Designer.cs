@@ -85,6 +85,7 @@ namespace SimpleSpritePacker
             this.txtOutput.Name = "txtOutput";
             this.txtOutput.Size = new System.Drawing.Size(675, 23);
             this.txtOutput.TabIndex = 3;
+            this.txtOutput.TextChanged += new System.EventHandler(this.txtOutput_TextChanged);
             // 
             // lbInputFiles
             // 
