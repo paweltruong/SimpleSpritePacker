@@ -31,6 +31,17 @@ namespace SimpleSpritePacker
         GeneratorData _generatorData;
         Bitmap _spriteAtlasBitmap;
 
+        public bool AllInputFilesSameDimensions
+        {
+            get
+            {
+                var firstFile = _inputFiles.FirstOrDefault();
+                if (firstFile == null)
+                    return true;
+                return _inputFiles.Count(i => i.Width == firstFile.Width && i.Height == firstFile.Height) == _inputFiles.Count;
+            }
+        }
+
         public MainForm()
         {
             InitializeComponent();
@@ -38,11 +49,16 @@ namespace SimpleSpritePacker
             _progressForm.Canceled += ProgressForm_Canceled;
             lvInputFiles.VirtualListSize = 0;
             txtOutput.Text = @"D:\Unity\Assets\Xelu_Free_Controller&Key_Prompts\Others\Xbox 360\atlas.png";
+            lbInputCount.Text = string.Empty;
+            lbDimensionVariesWarning.Visible = false;
             UpdateButtons();
         }
 
         void UpdateButtons()
         {
+            lbInputCount.Text = _inputFiles.Count.ToString();
+            lbDimensionVariesWarning.Visible = !AllInputFilesSameDimensions;
+
             bool outputValid = false;
             try
             {
@@ -222,10 +238,7 @@ namespace SimpleSpritePacker
                     var fileName = Path.GetFileName(file.Fullpath);
                     bw.ReportProgress(i + 1, $"Inserting file{fileName} {i + 1}/{fileCount}");
 
-                    PasteSpriteIntoAtlas2(file);
-                    //if(i%2 == 1)
-                    //InsertSpriteToAtlas(i);
-                    //Thread.Sleep(1000);
+                    InsertIntoAtlas(file);
                 }
                 else
                 {
@@ -260,122 +273,17 @@ namespace SimpleSpritePacker
             return result;
         }
 
-        private void InsertSpriteToAtlas(int index)
+        void InsertIntoAtlas(GeneratorFileData file)
         {
-            var file = _generatorData.InputFiles[index];
-
-
-            byte[] spritePixelData;
-            using (var sprite = new Bitmap(file.Fullpath))
-            {
-                // Lock the bitmap's bits.  
-                var rect = new Rectangle(0, 0, sprite.Width, sprite.Height);
-                var spriteData = sprite.LockBits(rect, ImageLockMode.ReadOnly, sprite.PixelFormat);
-
-                // Get the address of the first line.
-                IntPtr ptr = spriteData.Scan0;
-
-                // Declare an array to hold the bytes of the bitmap.
-                int bytes = Math.Abs(spriteData.Stride) * sprite.Height;
-                spritePixelData = new byte[bytes];
-
-                // Copy the RGB values into the array.
-                System.Runtime.InteropServices.Marshal.Copy(ptr, spritePixelData, 0, bytes);
-
-                // Unlock the bits.
-                sprite.UnlockBits(spriteData);
-            }
-
-            PasteSpriteIntoAtlas(file, spritePixelData);
-
-
-
-            //{
-            //    Bitmap bmp = new Bitmap(file.Fullpath);
-
-            //    // Lock the bitmap's bits.  
-            //    Rectangle rect = new Rectangle(0, 0, bmp.Width, bmp.Height);
-            //    System.Drawing.Imaging.BitmapData bmpData =
-            //        bmp.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite,
-            //        bmp.PixelFormat);
-
-            //    // Get the address of the first line.
-            //    IntPtr ptr = bmpData.Scan0;
-
-            //    // Declare an array to hold the bytes of the bitmap.
-            //    int bytes = Math.Abs(bmpData.Stride) * bmp.Height;
-            //    byte[] rgbValues = new byte[bytes];
-
-            //    // Copy the RGB values into the array.
-            //    System.Runtime.InteropServices.Marshal.Copy(ptr, rgbValues, 0, bytes);
-
-            //    // Set every third value to 255. A 24bpp bitmap will look red.  
-            //    for (int counter = 2; counter < rgbValues.Length; counter += 3)
-            //        rgbValues[counter] = 255;
-
-            //    // Copy the RGB values back to the bitmap
-            //    System.Runtime.InteropServices.Marshal.Copy(rgbValues, 0, ptr, bytes);
-
-            //    // Unlock the bits.
-            //    bmp.UnlockBits(bmpData);
-
-            //    // Draw the modified image.
-            //    e.Graphics.DrawImage(bmp, 0, 150);
-            //}
-        }
-
-        void PasteSpriteIntoAtlas2(GeneratorFileData file)
-        {
-                //Bitmap srcBitmap, Rectangle srcRegion, ref Bitmap destBitmap, Rectangle destRegion)
-
             using (var sprite = new Bitmap(file.Fullpath))
             {
                 using (Graphics grD = Graphics.FromImage(_spriteAtlasBitmap))
                 {
-                    var srcRegion = new Rectangle(0,0, file.Width, file.Height);
-                    var destRegion = new Rectangle(file.X,file.Y, file.Width, file.Height);
+                    var srcRegion = new Rectangle(0, 0, file.Width, file.Height);
+                    var destRegion = new Rectangle(file.X, file.Y, file.Width, file.Height);
                     grD.DrawImage(sprite, destRegion, srcRegion, GraphicsUnit.Pixel);
                 }
             }
-        }
-
-        void PasteSpriteIntoAtlas(GeneratorFileData file, byte[] spritePixelData)
-        {
-            
-            Debug.WriteLine($"File:{Path.GetFileName(file.Fullpath)} Dim:{file.Width}x{file.Height} to ({file.X},{file.Y})");
-            // Lock the bitmap's bits.  
-            var rect = new Rectangle(file.X, file.Y, file.Width, file.Height);
-            var atlasSlotData = _spriteAtlasBitmap.LockBits(rect, ImageLockMode.WriteOnly, _spriteAtlasBitmap.PixelFormat);
-
-            // Get the address of the first line.
-            IntPtr ptr = atlasSlotData.Scan0;
-
-            //TODO: there is bug that inserts from the 0 position
-            //var ptr = (byte*)atlasSlotData.Scan0;
-            //var bpp = Image.GetPixelFormatSize(_spriteAtlasBitmap.PixelFormat);
-
-            //for (var y = 0; y < atlasSlotData.Height; y++)
-            //{
-            //    // This is why real scan-width is important to have!
-            //    var row = ptr + (y * atlasSlotData.Stride);
-
-            //    for (var x = 0; x < atlasSlotData.Width; x++)
-            //    {
-            //        var pixel = row + x * bpp;
-
-            //        for (var bit = 0; bit < bpp; bit++)
-            //        {
-            //            var pixelComponent = pixel[bit];
-            //        }
-            //    }
-            //}
-
-
-            //Insert sprite data into atlas
-            System.Runtime.InteropServices.Marshal.Copy(spritePixelData, 0, ptr, spritePixelData.Length);
-
-            // Unlock the bits.
-            _spriteAtlasBitmap.UnlockBits(atlasSlotData);
         }
 
         void CreateOutputSprite()
@@ -413,7 +321,7 @@ namespace SimpleSpritePacker
                 var firstFile = _inputFiles[0];
 
                 //if all files have same dimensions
-                if (_inputFiles.Count(i => i.Width == firstFile.Width && i.Height == firstFile.Height) == _inputFiles.Count)
+                if (AllInputFilesSameDimensions)
                 {
                     //simple square atlas
                     var squareValue = (int)Math.Ceiling(Math.Sqrt(_inputFiles.Count));
@@ -441,6 +349,27 @@ namespace SimpleSpritePacker
         private void txtOutput_TextChanged(object sender, EventArgs e)
         {
             UpdateButtons();
+        }
+
+        private void lvInputFiles_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete && lvInputFiles.SelectedIndices.Count > 0)
+            {
+                var list = lvInputFiles.SelectedIndices.Cast<int>().ToList();
+                list.Sort();
+                list.Reverse();
+
+                foreach (var indexToDelete in list)
+                {
+                    _inputFiles.RemoveAt(indexToDelete);
+                }
+
+                lvInputFiles.VirtualListSize = _inputFiles.Count;
+                _inputFileListViewCache = null;
+                lvInputFiles.Invalidate();
+                UpdateButtons();
+            }
+
         }
     }
 }

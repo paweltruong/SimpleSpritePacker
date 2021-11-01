@@ -41,6 +41,8 @@ namespace SimpleSpritePacker
             this.btnClear = new System.Windows.Forms.Button();
             this.btnOutputFile = new System.Windows.Forms.Button();
             this.backgroundWorkerSpritePacker = new System.ComponentModel.BackgroundWorker();
+            this.lbInputCount = new System.Windows.Forms.Label();
+            this.lbDimensionVariesWarning = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lvInputFiles
@@ -64,6 +66,7 @@ namespace SimpleSpritePacker
             this.lvInputFiles.SearchForVirtualItem += new System.Windows.Forms.SearchForVirtualItemEventHandler(this.lvInputFiles_SearchForVirtualItem);
             this.lvInputFiles.DragDrop += new System.Windows.Forms.DragEventHandler(this.lvInputFiles_DragDrop);
             this.lvInputFiles.DragEnter += new System.Windows.Forms.DragEventHandler(this.lvInputFiles_DragEnter);
+            this.lvInputFiles.KeyUp += new System.Windows.Forms.KeyEventHandler(this.lvInputFiles_KeyUp);
             // 
             // chName
             // 
@@ -153,11 +156,33 @@ namespace SimpleSpritePacker
             this.backgroundWorkerSpritePacker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorkerSpritePacker_ProgressChanged);
             this.backgroundWorkerSpritePacker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerSpritePacker_RunWorkerCompleted);
             // 
+            // lbInputCount
+            // 
+            this.lbInputCount.AutoSize = true;
+            this.lbInputCount.Location = new System.Drawing.Point(736, 9);
+            this.lbInputCount.Name = "lbInputCount";
+            this.lbInputCount.Size = new System.Drawing.Size(16, 15);
+            this.lbInputCount.TabIndex = 5;
+            this.lbInputCount.Text = "...";
+            // 
+            // lbDimensionVariesWarning
+            // 
+            this.lbDimensionVariesWarning.AutoSize = true;
+            this.lbDimensionVariesWarning.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lbDimensionVariesWarning.ForeColor = System.Drawing.Color.DarkRed;
+            this.lbDimensionVariesWarning.Location = new System.Drawing.Point(12, 225);
+            this.lbDimensionVariesWarning.Name = "lbDimensionVariesWarning";
+            this.lbDimensionVariesWarning.Size = new System.Drawing.Size(249, 15);
+            this.lbDimensionVariesWarning.TabIndex = 6;
+            this.lbDimensionVariesWarning.Text = "Warning: Not all files have same dimensions";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.lbDimensionVariesWarning);
+            this.Controls.Add(this.lbInputCount);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.btnOutputFile);
             this.Controls.Add(this.btnAddFiles);
@@ -187,6 +212,8 @@ namespace SimpleSpritePacker
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Button btnOutputFile;
         private System.ComponentModel.BackgroundWorker backgroundWorkerSpritePacker;
+        private System.Windows.Forms.Label lbInputCount;
+        private System.Windows.Forms.Label lbDimensionVariesWarning;
     }
 }
 
