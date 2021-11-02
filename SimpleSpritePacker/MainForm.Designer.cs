@@ -43,6 +43,9 @@ namespace SimpleSpritePacker
             this.backgroundWorkerSpritePacker = new System.ComponentModel.BackgroundWorker();
             this.lbInputCount = new System.Windows.Forms.Label();
             this.lbDimensionVariesWarning = new System.Windows.Forms.Label();
+            this.btnSortAsc = new System.Windows.Forms.Button();
+            this.btnSortDesc = new System.Windows.Forms.Button();
+            this.chGenerateFileList = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // lvInputFiles
@@ -176,13 +179,46 @@ namespace SimpleSpritePacker
             this.lbDimensionVariesWarning.TabIndex = 6;
             this.lbDimensionVariesWarning.Text = "Warning: Not all files have same dimensions";
             // 
+            // btnSortAsc
+            // 
+            this.btnSortAsc.Location = new System.Drawing.Point(365, 225);
+            this.btnSortAsc.Name = "btnSortAsc";
+            this.btnSortAsc.Size = new System.Drawing.Size(75, 23);
+            this.btnSortAsc.TabIndex = 1;
+            this.btnSortAsc.Text = "Sort Asc";
+            this.btnSortAsc.UseVisualStyleBackColor = true;
+            this.btnSortAsc.Click += new System.EventHandler(this.btnSortAsc_Click);
+            // 
+            // btnSortDesc
+            // 
+            this.btnSortDesc.Location = new System.Drawing.Point(446, 225);
+            this.btnSortDesc.Name = "btnSortDesc";
+            this.btnSortDesc.Size = new System.Drawing.Size(75, 23);
+            this.btnSortDesc.TabIndex = 1;
+            this.btnSortDesc.Text = "Sort Desc";
+            this.btnSortDesc.UseVisualStyleBackColor = true;
+            this.btnSortDesc.Click += new System.EventHandler(this.btnSortDesc_Click);
+            // 
+            // chGenerateFileList
+            // 
+            this.chGenerateFileList.AutoSize = true;
+            this.chGenerateFileList.Location = new System.Drawing.Point(436, 419);
+            this.chGenerateFileList.Name = "chGenerateFileList";
+            this.chGenerateFileList.Size = new System.Drawing.Size(251, 19);
+            this.chGenerateFileList.TabIndex = 7;
+            this.chGenerateFileList.Text = "Generate additional *.txt with atlas content";
+            this.chGenerateFileList.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.chGenerateFileList);
             this.Controls.Add(this.lbDimensionVariesWarning);
             this.Controls.Add(this.lbInputCount);
+            this.Controls.Add(this.btnSortDesc);
+            this.Controls.Add(this.btnSortAsc);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.btnOutputFile);
             this.Controls.Add(this.btnAddFiles);
@@ -214,6 +250,9 @@ namespace SimpleSpritePacker
         private System.ComponentModel.BackgroundWorker backgroundWorkerSpritePacker;
         private System.Windows.Forms.Label lbInputCount;
         private System.Windows.Forms.Label lbDimensionVariesWarning;
+        private System.Windows.Forms.Button btnSortAsc;
+        private System.Windows.Forms.Button btnSortDesc;
+        private System.Windows.Forms.CheckBox chGenerateFileList;
     }
 }
 

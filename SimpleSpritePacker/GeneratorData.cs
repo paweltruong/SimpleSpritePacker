@@ -11,6 +11,8 @@ namespace SimpleSpritePacker
         public int Width;
         public int Height;
         public GeneratorFileData[] InputFiles;
+        public bool GenerateFileList;
+        public string ContentListFile;
     }
 
     public struct GeneratorFileData

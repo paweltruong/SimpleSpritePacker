@@ -70,6 +70,7 @@ namespace SimpleSpritePacker
 
             btnGenerate.Enabled = _inputFiles.Count > 0 && outputValid;
             btnClear.Enabled = _inputFiles.Count > 0;
+            btnSortAsc.Enabled = btnSortDesc.Enabled =  _inputFiles.Count > 0;
         }
 
         void AddInputFile(string filePath)
@@ -141,6 +142,12 @@ namespace SimpleSpritePacker
         {
             _generatorData = new GeneratorData();
             _generatorData.OutputFile = txtOutput.Text;
+            _generatorData.GenerateFileList = chGenerateFileList.Checked;
+
+            string dir = Path.GetDirectoryName(txtOutput.Text);
+            string fileName = Path.GetFileNameWithoutExtension(txtOutput.Text);
+            _generatorData.ContentListFile = Path.GetFullPath(Path.Combine(dir, fileName + ".txt"));
+
             var placementMode = CalculateSpriteAtlasDimensions(out int atlasWidth, out int atlasHeight);
             _generatorData.Width = atlasWidth;
             _generatorData.Height = atlasHeight;
@@ -263,6 +270,12 @@ namespace SimpleSpritePacker
                         fileStream.Flush();
                     }
                 }
+
+                //Generate file list
+                if (_generatorData.GenerateFileList)
+                {
+                    File.WriteAllLines(_generatorData.ContentListFile, _generatorData.InputFiles.Select(f=>f.Fullpath));
+                }
             }
             else
             {
@@ -370,6 +383,20 @@ namespace SimpleSpritePacker
                 UpdateButtons();
             }
 
+        }
+
+        private void btnSortAsc_Click(object sender, EventArgs e)
+        {
+            _inputFiles = _inputFiles.OrderBy(f => Path.GetFileName(f.Fullpath)).ToList();
+            _inputFileListViewCache = null;
+            lvInputFiles.Invalidate();
+        }
+
+        private void btnSortDesc_Click(object sender, EventArgs e)
+        {
+            _inputFiles = _inputFiles.OrderByDescending(f => Path.GetFileName(f.Fullpath)).ToList();
+            _inputFileListViewCache = null;
+            lvInputFiles.Invalidate();
         }
     }
 }
