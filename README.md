@@ -2,6 +2,12 @@
 SimpleSpritePacker generate sprite atlas from sprites
 
 
+**Repository Content**
+- SimpleSpritePacker app
+- Unity Editoe tool for renaming sliced sprites
+
+--------------------------------------
+
 **How to use**
 
 1. Install or build and run application
@@ -19,7 +25,7 @@ SimpleSpritePacker generate sprite atlas from sprites
 
 ![ssp_screen_02](https://user-images.githubusercontent.com/79088221/139771350-369e0366-2c69-48ce-9c0e-18a6e8cd6dc5.PNG)
 
-
+------------------------------------------------------
 
 **Importing to Unity Editor**
 1. Move sprite atlas file to Unity Project (somewhere within Assets folder)
