@@ -48,7 +48,7 @@ namespace SimpleSpritePacker
             _progressForm = new ProgressForm();
             _progressForm.Canceled += ProgressForm_Canceled;
             lvInputFiles.VirtualListSize = 0;
-            txtOutput.Text = @"D:\Unity\Assets\Xelu_Free_Controller&Key_Prompts\Others\Xbox 360\atlas.png";
+            txtOutput.Text = @"C:\atlas.png";
             lbInputCount.Text = string.Empty;
             lbDimensionVariesWarning.Visible = false;
             UpdateButtons();
@@ -70,7 +70,7 @@ namespace SimpleSpritePacker
 
             btnGenerate.Enabled = _inputFiles.Count > 0 && outputValid;
             btnClear.Enabled = _inputFiles.Count > 0;
-            btnSortAsc.Enabled = btnSortDesc.Enabled =  _inputFiles.Count > 0;
+            btnSortAsc.Enabled = btnSortDesc.Enabled = _inputFiles.Count > 0;
         }
 
         void AddInputFile(string filePath)
@@ -100,10 +100,12 @@ namespace SimpleSpritePacker
                 openFileDialog.Filter = "PNG files (*.png)|*.png|All files (*.*)|*.*";
                 openFileDialog.FilterIndex = 2;
                 openFileDialog.RestoreDirectory = false;
+                openFileDialog.Multiselect = true;
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    AddInputFile(openFileDialog.FileName);
+                    foreach (var file in openFileDialog.FileNames)
+                        AddInputFile(file);
                 }
             }
         }
@@ -217,8 +219,15 @@ namespace SimpleSpritePacker
             else if (e.Error != null)
             {
                 // There was an error during the operation.
-                string msg = String.Format("An error occurred: {0}", e.Error.Message);
-                MessageBox.Show(msg);
+                if (e.Error is UnauthorizedAccessException)
+                {
+                    MessageBox.Show($"{e.Error.Message}\r\nTry runnig application as administrator", e.Error.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    string msg = String.Format("An error occurred: {0}", e.Error.Message);
+                    MessageBox.Show(msg);
+                }
             }
             else
             {
@@ -274,7 +283,7 @@ namespace SimpleSpritePacker
                 //Generate file list
                 if (_generatorData.GenerateFileList)
                 {
-                    File.WriteAllLines(_generatorData.ContentListFile, _generatorData.InputFiles.Select(f=>f.Fullpath));
+                    File.WriteAllLines(_generatorData.ContentListFile, _generatorData.InputFiles.Select(f => f.Fullpath));
                 }
             }
             else

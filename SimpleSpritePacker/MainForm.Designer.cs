@@ -29,6 +29,7 @@ namespace SimpleSpritePacker
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.lvInputFiles = new System.Windows.Forms.ListView();
             this.chName = new System.Windows.Forms.ColumnHeader();
             this.chFormat = new System.Windows.Forms.ColumnHeader();
@@ -51,6 +52,9 @@ namespace SimpleSpritePacker
             // lvInputFiles
             // 
             this.lvInputFiles.AllowDrop = true;
+            this.lvInputFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lvInputFiles.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.chName,
             this.chFormat,
@@ -87,10 +91,12 @@ namespace SimpleSpritePacker
             // 
             // txtOutput
             // 
-            this.txtOutput.Location = new System.Drawing.Point(12, 381);
+            this.txtOutput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtOutput.Location = new System.Drawing.Point(12, 285);
             this.txtOutput.Name = "txtOutput";
             this.txtOutput.Size = new System.Drawing.Size(675, 23);
-            this.txtOutput.TabIndex = 3;
+            this.txtOutput.TabIndex = 5;
             this.txtOutput.TextChanged += new System.EventHandler(this.txtOutput_TextChanged);
             // 
             // lbInputFiles
@@ -104,8 +110,9 @@ namespace SimpleSpritePacker
             // 
             // lbOutput
             // 
+            this.lbOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lbOutput.AutoSize = true;
-            this.lbOutput.Location = new System.Drawing.Point(12, 353);
+            this.lbOutput.Location = new System.Drawing.Point(12, 257);
             this.lbOutput.Name = "lbOutput";
             this.lbOutput.Size = new System.Drawing.Size(66, 15);
             this.lbOutput.TabIndex = 2;
@@ -113,40 +120,44 @@ namespace SimpleSpritePacker
             // 
             // btnGenerate
             // 
-            this.btnGenerate.Location = new System.Drawing.Point(693, 415);
+            this.btnGenerate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnGenerate.Location = new System.Drawing.Point(693, 319);
             this.btnGenerate.Name = "btnGenerate";
             this.btnGenerate.Size = new System.Drawing.Size(75, 23);
-            this.btnGenerate.TabIndex = 4;
+            this.btnGenerate.TabIndex = 8;
             this.btnGenerate.Text = "Generate";
             this.btnGenerate.UseVisualStyleBackColor = true;
             this.btnGenerate.Click += new System.EventHandler(this.btnGenerate_Click);
             // 
             // btnAddFiles
             // 
+            this.btnAddFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAddFiles.Location = new System.Drawing.Point(693, 225);
             this.btnAddFiles.Name = "btnAddFiles";
             this.btnAddFiles.Size = new System.Drawing.Size(75, 23);
-            this.btnAddFiles.TabIndex = 2;
+            this.btnAddFiles.TabIndex = 4;
             this.btnAddFiles.Text = "Add files";
             this.btnAddFiles.UseVisualStyleBackColor = true;
             this.btnAddFiles.Click += new System.EventHandler(this.btnAddFiles_Click);
             // 
             // btnClear
             // 
+            this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClear.Location = new System.Drawing.Point(612, 225);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(75, 23);
-            this.btnClear.TabIndex = 1;
+            this.btnClear.TabIndex = 3;
             this.btnClear.Text = "Clear";
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // btnOutputFile
             // 
-            this.btnOutputFile.Location = new System.Drawing.Point(693, 381);
+            this.btnOutputFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOutputFile.Location = new System.Drawing.Point(693, 285);
             this.btnOutputFile.Name = "btnOutputFile";
             this.btnOutputFile.Size = new System.Drawing.Size(75, 23);
-            this.btnOutputFile.TabIndex = 2;
+            this.btnOutputFile.TabIndex = 6;
             this.btnOutputFile.Text = "Browse";
             this.btnOutputFile.UseVisualStyleBackColor = true;
             this.btnOutputFile.Click += new System.EventHandler(this.btnOutputFile_Click);
@@ -170,6 +181,7 @@ namespace SimpleSpritePacker
             // 
             // lbDimensionVariesWarning
             // 
+            this.lbDimensionVariesWarning.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lbDimensionVariesWarning.AutoSize = true;
             this.lbDimensionVariesWarning.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lbDimensionVariesWarning.ForeColor = System.Drawing.Color.DarkRed;
@@ -181,6 +193,7 @@ namespace SimpleSpritePacker
             // 
             // btnSortAsc
             // 
+            this.btnSortAsc.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnSortAsc.Location = new System.Drawing.Point(365, 225);
             this.btnSortAsc.Name = "btnSortAsc";
             this.btnSortAsc.Size = new System.Drawing.Size(75, 23);
@@ -191,18 +204,20 @@ namespace SimpleSpritePacker
             // 
             // btnSortDesc
             // 
+            this.btnSortDesc.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnSortDesc.Location = new System.Drawing.Point(446, 225);
             this.btnSortDesc.Name = "btnSortDesc";
             this.btnSortDesc.Size = new System.Drawing.Size(75, 23);
-            this.btnSortDesc.TabIndex = 1;
+            this.btnSortDesc.TabIndex = 2;
             this.btnSortDesc.Text = "Sort Desc";
             this.btnSortDesc.UseVisualStyleBackColor = true;
             this.btnSortDesc.Click += new System.EventHandler(this.btnSortDesc_Click);
             // 
             // chGenerateFileList
             // 
+            this.chGenerateFileList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.chGenerateFileList.AutoSize = true;
-            this.chGenerateFileList.Location = new System.Drawing.Point(436, 419);
+            this.chGenerateFileList.Location = new System.Drawing.Point(436, 323);
             this.chGenerateFileList.Name = "chGenerateFileList";
             this.chGenerateFileList.Size = new System.Drawing.Size(251, 19);
             this.chGenerateFileList.TabIndex = 7;
@@ -213,7 +228,7 @@ namespace SimpleSpritePacker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 364);
             this.Controls.Add(this.chGenerateFileList);
             this.Controls.Add(this.lbDimensionVariesWarning);
             this.Controls.Add(this.lbInputCount);
@@ -227,8 +242,9 @@ namespace SimpleSpritePacker
             this.Controls.Add(this.lbInputFiles);
             this.Controls.Add(this.txtOutput);
             this.Controls.Add(this.lvInputFiles);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
-            this.Text = "SimpleSpritePacker";
+            this.Text = "SimpleSpritePacker v.1.0";
             this.ResumeLayout(false);
             this.PerformLayout();
 
